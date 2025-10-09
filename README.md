@@ -12,9 +12,6 @@ This repository showcases the brand identity of the Center for Metropolitan Stud
 
 The report is available [here](https://cem-usp.github.io/brand-yml/).
 
-> [!WARNING]
-> The brand colors are still being refined. Expect changes in the near future.
-
 > If you find this project useful, please consider giving it a star! [![GitHub repo stars](https://img.shields.io/github/stars/cem-usp/brand-yml)](https://github.com/cem-usp/brand-yml/)
 
 ## Usage
