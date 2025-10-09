@@ -1,0 +1,71 @@
+editor: source
+
+execute:
+  cache: false # "Danger Will Robinson!"
+  freeze: false # If you plan to use it, remember to disable it afterward!
+
+project:
+  type: website
+  output-dir: docs
+  render: [index.qmd]
+  pre-render: "R/_pre-render.R"
+  post-render: "R/_post-render.R"
+
+title: brand.yml
+author: "Daniel Vartanian"
+keyword: >
+  Pipelines, Data Visualization, Graphic Design, Design Automation,
+  Programmatic Graphics, Logo, Center for Metropolitan Studies, CEM,
+  University of São Paulo, USP
+date: today
+date-format: long
+
+website:
+  favicon: images/favicon.svg
+  site-url: https://cem-usp.github.io/brand-yml/
+  repo-url: https://github.com/cem-usp/brand-yml/
+  issue-url: https://github.com/cem-usp/brand-yml/issues/
+  open-graph:
+    image: images/og-image.png
+    image-width: 2400
+    image-height: 1600
+    image-alt: Center for Metropolitan Studies
+  repo-branch: main
+  repo-actions: [edit, source, issue]
+  search: false
+  navbar:
+    title: false
+    background: "#002554"
+    right:
+      - icon: github
+        href: https://github.com/cem-usp/brand-yml/
+        aria-label: GitHub
+
+lightbox:
+  match: auto
+  effect: fade
+  desc-position: bottom
+  loop: false
+
+format:
+  html:
+    toc: true
+    toc-depth: 5
+    toc-location: right
+    locale: en
+    language: en-us
+    code-fold: true
+    code-link: true
+    code-tools: false
+    df-print: paged
+    fig-align: center
+    cap-location: top
+    lightbox: true
+    callout-appearance: simple
+    csl: csl/english-apa-author-date.csl
+    theme: [cosmo, scss/styles.scss, brand]
+    other-links:
+      - text: Center for Metropolitan Studies
+        href: https://centrodametropole.fflch.usp.br
+
+google-scholar: true
