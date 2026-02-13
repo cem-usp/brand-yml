@@ -1,15 +1,15 @@
 editor: source
 
 execute:
-  cache: false # "Danger Will Robinson!"
+  cache: false # "Danger, Will Robinson!"
   freeze: false # If you plan to use it, remember to disable it afterward!
 
 project:
   type: website
   output-dir: docs
   render: [index.qmd]
-  pre-render: "R/_pre-render.R"
-  post-render: "R/_post-render.R"
+  pre-render: "R/.pre-render.R"
+  post-render: "R/.post-render.R"
 
 title: brand.yml
 author: "Daniel Vartanian"

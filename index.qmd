@@ -4,20 +4,15 @@
 
 library(here)
 
-source(here("R", "_setup.R"))
+here("R", ".setup.R") |> source()
 ```
 
 <!-- badges: start -->
-[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![License: GPLv3](https://img.shields.io/badge/license-GPLv3-bd0000.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/license-CC_BY--NC--SA_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+[![Contributor Covenant 3.0 code of conduct badge](https://img.shields.io/badge/Contributor%20Covenant-3.0-4baaaa.svg)](https://www.contributor-covenant.org/version/3/0/code_of_conduct/)
 <!-- badges: end -->
-
-::: {.callout-important}
-This report is a **Work In Progress** (WIP) and is under active development.
-
-The brand colors are still being refined. Expect changes in the near future.
-:::
 
 ## Overview
 
@@ -52,10 +47,7 @@ meta:
     Innovation, and Dissemination Centers (CEPIDs) of the São Paulo Research
     Foundation (FAPESP). It is based at the School of Philosophy, Letters and
     Human Sciences (FFLCH) of the University of São Paulo (USP) and at the
-    Brazilian Center for Analysis and Planning (CEBRAP). CEM brings together a
-    multidisciplinary team of demographers, political scientists, sociologists,
-    geographers, economists, and anthropologists.
-
+    Brazilian Center for Analysis and Planning (CEBRAP).
   founded: 2000
 
 color:
@@ -110,17 +102,16 @@ typography:
       source: google
   base:
     family: Roboto
-    size: 1rem
     line-height: 1.5
     weight: normal
   headings:
     family: Montserrat
     color: blue
-    line-height: 1.5
+    line-height: 1.25
     weight: 800
   monospace: Roboto Mono
   monospace-inline:
-    color: black
+    color: comp-blue-1
     background-color: gray-l95
   monospace-block:
     background-color: gray-l95
@@ -140,85 +131,132 @@ typography:
 
 library(brandr)
 library(dplyr)
-library(fs)
-library(geodata)
+library(geobr)
 library(ggplot2)
 library(ggspatial)
 library(here)
-library(magrittr)
-library(orbis) # github.com/danielvartan/orbis
+library(htmltools)
 library(palmerpenguins)
-library(stringr)
-library(terra)
-library(tidyterra)
+library(sf)
 library(tidyr)
-```
-
-### Set Variables
-
-```{r}
-data_dir <- here("data")
-```
-
-```{r}
-if (!dir_exists(data_dir)) dir_create(data_dir)
 ```
 
 ## Bar Plots
 
 ```{r}
 penguins |>
-  ggplot(aes(x = sex, fill = species)) +
+  ggplot(
+    aes(
+      x = sex,
+      fill = species
+    )
+  ) +
   geom_bar(alpha = 0.8) +
-  facet_wrap(~species, ncol = 1) +
+  facet_wrap(vars(species), ncol = 1) +
+  scale_fill_brand_d() +
   coord_flip() +
   labs(
     x = "Island",
-    y = "Count"
-  ) +
-  scale_fill_brand_d()
+    y = "Frequency",
+    fill = "Species"
+  )
 ```
 
 ## Histograms
 
 ```{r}
 penguins |>
-  drop_na(flipper_length_mm, species) |>
-  ggplot(aes(x = flipper_length_mm, fill = species)) +
-  geom_histogram(bins = 30, alpha = 0.5, position = "identity") +
-  labs(x = "Flipper Length (mm)", y = "Frequency", fill = "Species") +
-  scale_fill_brand_d()
+  drop_na(
+    flipper_length_mm,
+    species
+  ) |>
+  ggplot(
+    aes(
+      x = flipper_length_mm,
+      fill = species
+    )
+  ) +
+  geom_histogram(
+    bins = 30,
+    alpha = 0.5,
+    position = "identity"
+  ) +
+  scale_fill_brand_d() +
+  labs(
+    x = "Flipper Length (mm)",
+    y = "Frequency",
+    fill = "Species"
+  )
 ```
 
 ## Boxplots
 
 ```{r}
 penguins |>
-  drop_na(bill_length_mm, species) |>
-  ggplot(aes(x = species, y = bill_length_mm, fill = species)) +
-  geom_boxplot(outlier.color = get_brand_color("dark-red")) +
-  geom_jitter(width = 0.2, alpha = 0.1) +
+  drop_na(
+    bill_length_mm,
+    species
+  ) |>
+  ggplot(
+    aes(
+      x = species,
+      y = bill_length_mm,
+      fill = species
+    )
+  ) +
+  geom_boxplot(
+    outlier.color = get_brand_color("dark-red")
+  ) +
+  geom_jitter(
+    width = 0.2,
+    alpha = 0.1
+  ) +
   scale_fill_brand_d(alpha = 0.7) +
-  labs(x = "Species", y = "Bill Length (mm)", fill = "Species")
+  labs(
+    x = "Species",
+    y = "Bill Length (mm)",
+    fill = "Species"
+  )
 ```
 
 ## Density
 
 ```{r}
 penguins |>
-  drop_na(flipper_length_mm, species) |>
-  ggplot(aes(x = flipper_length_mm, fill = species)) +
-  geom_density(alpha = 0.5, position = "identity") +
+  drop_na(
+    flipper_length_mm,
+    species
+  ) |>
+  ggplot(
+    aes(
+      x = flipper_length_mm,
+      fill = species
+    )
+  ) +
+  geom_density(
+    alpha = 0.5,
+    position = "identity"
+  ) +
   scale_fill_brand_d() +
-  labs(x = "Flipper Length (mm)", y = "Density", fill = "Species") +
-  theme(legend.position = "none")
+  labs(
+    x = "Flipper Length (mm)",
+    y = "Density",
+    fill = "Species"
+  ) +
+  theme(
+    legend.position = "none"
+  )
 ```
 
 ## Scatterplots
 
 ```{r}
 penguins |>
-  drop_na(body_mass_g, flipper_length_mm, species) |>
+  drop_na(
+    body_mass_g,
+    flipper_length_mm,
+    species
+  ) |>
   ggplot(
     aes(
       x = body_mass_g,
@@ -228,87 +266,90 @@ penguins |>
     )
   ) +
   geom_point(size = 2) +
-  geom_smooth(method = "lm", formula = y ~ x, se = FALSE) +
+  geom_smooth(
+    method = "lm",
+    formula = y ~ x,
+    se = FALSE
+  ) +
+  scale_color_brand_d(alpha = 0.7) +
   labs(
     x = "Body Mass (g)",
     y = "Flipper Length (mm)",
     color = "Species",
     shape = "Species"
-  ) +
-  scale_color_brand_d(alpha = 0.7)
+  )
 ```
 
 ## Maps
 
 ```{r}
-brazil_states_vector <- gadm("BRA", level = 1, path = data_dir)
+#| output: false
+
+brazil_states <- read_state()
 ```
 
 ```{r}
 #| output: false
 
 data <-
-  tibble(
-    state = sample(
-      brazil_states_vector$NAME_1,
-      size = 1000,
+  brazil_states |>
+  mutate(
+    n = sample(
+      1:1000,
+      size = n(),
       replace = TRUE
     ),
-    value = sample(1:1000, size = 1000, replace = TRUE)
-  ) |>
-   map_fill_data(col_fill = "value", col_ref = "state")
+  )
+```
+
+```{r}
+plot <-
+  data |>
+  ggplot() +
+  geom_sf(
+    aes(fill = n),
+    color = get_brand_color("gray")
+  ) +
+  scale_fill_brand_b(
+    n.breaks = 6
+  ) +
+  labs(fill = NULL) +
+  annotation_scale(
+    location = "br",
+    style = "tick",
+    width_hint = 0.25,
+    height = unit(0.15, "cm")
+  ) +
+  annotation_north_arrow(
+    location = "br",
+    height = unit(2, "lines"),
+    width = unit(2, "lines"),
+    pad_x = unit(0.25, "lines"),
+    pad_y = unit(1.25, "lines"),
+    style = north_arrow_fancy_orienteering
+  )
 ```
 
 ### Continuous
 
 ```{r}
-brazil_states_vector |>
-  left_join(data, by = c("NAME_1" = "state")) |>
-  ggplot() +
-  geom_spatvector(aes(fill = value), color = get_brand_color("gray")) +
-  scale_fill_brand_b(color_type = "seq") +
-  labs(fill = NULL) +
-  annotation_scale(
-    location = "br",
-    style = "tick",
-    width_hint = 0.25,
-    height = unit(0.15, "cm")
-  ) +
-  annotation_north_arrow(
-    location = "br",
-    height = unit(1, "cm"),
-    width = unit(1, "cm"),
-    pad_x = unit(0.1, "cm"),
-    pad_y = unit(0.55, "cm"),
-    style = north_arrow_fancy_orienteering
-  )
+#| messages: false
+#| #| warning: false
 
+plot
 ```
 
 ### Diverging
 
 ```{r}
-brazil_states_vector |>
-  left_join(data, by = c("NAME_1" = "state")) |>
-  ggplot() +
-  geom_spatvector(aes(fill = value), color = get_brand_color("gray")) +
-  scale_fill_brand_b(color_type = "div") +
-  labs(fill = NULL) +
-  annotation_scale(
-    location = "br",
-    style = "tick",
-    width_hint = 0.25,
-    height = unit(0.15, "cm")
-  ) +
-  annotation_north_arrow(
-    location = "br",
-    height = unit(1, "cm"),
-    width = unit(1, "cm"),
-    pad_x = unit(0.1, "cm"),
-    pad_y = unit(0.55, "cm"),
-    style = north_arrow_fancy_orienteering
-  )
+#| messages: false
+#| #| warning: false
 
+plot +
+  scale_fill_brand_b(
+    color_type = "div",
+    n.breaks = 6
+  )
 ```
 
 ## Logo Pattern
@@ -328,10 +369,10 @@ See the [`logo-pattern`](https://cem-usp.github.io/logo-pattern/) repository to 
 [![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/license-CC_BY--NC--SA_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 :::
 
-The code in this report is licensed under the [GNU General Public License Version 3](https://www.gnu.org/licenses/gpl-3.0), while the report is available under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+The code in this report is licensed under the [GNU General Public License Version 3](https://www.gnu.org/licenses/gpl-3.0), while the report is available under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-nc-sa/4.0/) license.
 
 ``` text
-Copyright (C) 2025 Daniel Vartanian
+Copyright (C) 2026 Center for Metropolitan Studies
 
 The code in this report is free software: you can redistribute it and/or
 modify it under the terms of the GNU General Public License as published by the
@@ -349,24 +390,23 @@ this program. If not, see <https://www.gnu.org/licenses/>.
 ## Acknowledgments
 
 ```{r, results='asis'}
+#| eval: true
 #| echo: false
-
-library(htmltools)
 
 blocks <- list(
   list(
     logo_link = "https://centrodametropole.fflch.usp.br",
-    logo_src = "images/cem-icon.svg",
+    logo_src = "images/cem-logo.svg",
     logo_alt = "CEM Logo",
-    logo_width = 190,
+    logo_max_width = 190,
     text = 'This work was developed with support from the Center for Metropolitan Studies (<a href="https://centrodametropole.fflch.usp.br">CEM</a>) based at the School of Philosophy, Letters and Human Sciences (<a href="https://www.fflch.usp.br/">FFLCH</a>) of the University of São Paulo (<a href="https://usp.br">USP</a>) and at the Brazilian Center for Analysis and Planning (<a href="https://cebrap.org.br/">CEBRAP</a>).'
   ),
   list(
-    logo_link = "https://fapesp.br/",
+    logo_link = "https://fapesp.br",
     logo_src = "images/fapesp-logo.svg",
     logo_alt = "FAPESP Logo",
-    logo_width = 160,
-    text = 'This study was financed, in part, by the São Paulo Research Foundation (<a href="https://fapesp.br/">FAPESP</a>), Brazil. Process Number <a href="https://bv.fapesp.br/en/bolsas/231507/geospatial-data-science-applied-to-food-policies/">2025/17879-2</a>.'
+    logo_max_width = 160,
+    text = 'This work was financed, in part, by the São Paulo Research Foundation (<a href="https://fapesp.br/">FAPESP</a>), Brazil. Process Number <a href="https://bv.fapesp.br/en/bolsas/231507/geospatial-data-science-applied-to-food-policies/">2025/17879-2</a>.'
   )
 )
 
@@ -376,7 +416,7 @@ blocks |>
       div(
         style = paste0(
           "display: flex; ",
-          "align-items: flex-start; ",
+          "align-items: center; ",
           "margin-bottom: 2em;"
         ),
         div(
@@ -392,7 +432,9 @@ blocks |>
               src = x$logo_src,
               alt = x$logo_alt,
               style = paste0(
-                "max-width: ", x$logo_width, "px; ",
+                "max-width: ",
+                x$logo_max_width,
+                "px; ",
                 "width: 100%; ",
                 "height: auto;"
               )

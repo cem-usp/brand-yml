@@ -6,7 +6,6 @@ library(ggplot2)
 library(here)
 library(knitr)
 library(magrittr)
-library(quartor) # github.com/danielvartan/quartor
 library(ragg)
 library(showtext)
 library(sysfonts)
@@ -28,7 +27,7 @@ options(
 
 # Set Variables -----
 
-set.seed(2025)
+set.seed(2026)
 
 # Set `knitr`` -----
 
@@ -39,7 +38,6 @@ opts_chunk$set(
   collapse = TRUE,
   root.dir = here(),
   dev = "ragg_png",
-  dev.args = list(bg = "transparent"),
   fig.showtext = TRUE
 )
 
@@ -51,8 +49,11 @@ brandr_options <- list(
   "BRANDR_COLOR_SEQUENTIAL" = get_brand_color(
     c("blue", "white")
   ),
-  "BRANDR_COLOR_DIVERGING" =
-    get_brand_color(c("comp-blue-3", "white", "comp-blue-6")),
+  "BRANDR_COLOR_DIVERGING" = get_brand_color(c(
+    "comp-blue-3",
+    "white",
+    "comp-blue-6"
+  )),
   "BRANDR_COLOR_QUALITATIVE" = get_brand_color(
     c(
       "square-blue-green",
@@ -71,7 +72,7 @@ for (i in seq_along(brandr_options)) {
 
 # Set `showtext` -----
 
-font_paths(here("ttf"))
+here("ttf") |> font_paths()
 
 font_add(
   family = "montserrat",
@@ -98,19 +99,11 @@ theme_set(
     theme(
       text = element_text(
         color = get_brand_color("black"),
-        family = "roboto",
+        family = "montserrat",
         face = "plain"
-      ),
-      panel.background = element_rect(fill = "transparent"),
-      plot.background = element_rect(
-        fill = "transparent", color = NA
       ),
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
-      legend.background = element_rect(fill = "transparent"),
-      legend.box.background = element_rect(
-        fill = "transparent", color = NA
-      ),
       legend.frame = element_blank(),
       legend.ticks = element_line(color = "white")
     )

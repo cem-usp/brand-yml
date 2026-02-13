@@ -11,13 +11,11 @@ meta:
     youtube: https://www.youtube.com/@CentrodeEstudosdaMetropole
     linkedin: https://www.linkedin.com/company/centro-de-estudos-da-metropole
   description: |
-    The Center for Metropolitan Studies (CEM) is one of the Research,
+    The Center for Metropolitan Studies (CEM_ is one of the Research,
     Innovation, and Dissemination Centers (CEPIDs) of the São Paulo Research
     Foundation (FAPESP). It is based at the School of Philosophy, Letters and
     Human Sciences (FFLCH) of the University of São Paulo (USP) and at the
-    Brazilian Center for Analysis and Planning (CEBRAP). CEM brings together a
-    multidisciplinary team of demographers, political scientists, sociologists,
-    geographers, economists, and anthropologists.
+    Brazilian Center for Analysis and Planning (CEBRAP).
   founded: 2000
 
 color:
@@ -72,17 +70,16 @@ typography:
       source: google
   base:
     family: Roboto
-    size: 1rem
     line-height: 1.5
     weight: normal
   headings:
     family: Montserrat
     color: blue
-    line-height: 1.5
+    line-height: 1.25
     weight: 800
   monospace: Roboto Mono
   monospace-inline:
-    color: black
+    color: comp-blue-1
     background-color: gray-l95
   monospace-block:
     background-color: gray-l95
