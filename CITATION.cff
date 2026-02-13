@@ -34,4 +34,4 @@ identifiers:
     description: Code Repository
 repository-code: https://github.com/cem-usp/brand-yml
 license: GPL-3.0-or-later
-version: 1.0.0
+version: 1.0.0.9000
