@@ -37,6 +37,7 @@
     "Brand Identity",
     "Branding",
     "Design",
+    "Pipelines",
     "Graphic Design",
     "brand.yml",
     "Data Visualization",
@@ -47,7 +48,8 @@
   "issueTracker": "https://github.com/cem-usp/brand-yml/issues",
   "runtimePlatform": "R",
   "relatedLink": [
-    "https://github.com/cem-usp/.github"
+    "https://github.com/cem-usp/.github",
+    "https://github.com/cem-usp/logo-pattern"
   ],
   "programmingLanguage": {
     "@type": "ComputerLanguage",
